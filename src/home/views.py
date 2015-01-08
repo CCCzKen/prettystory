@@ -18,19 +18,20 @@ xml_text = """
 """
 
 @bp.route('/', methods=['GET', 'POST'])
-def home():
+def wechat_auto():
 	if request.method == 'POST':	
-		xml = etree.fromstring(request.data)
+		xml = etree.fromstring(request.stream.read())
 		content = xml.find('Content').text
 		fromUser = xml.find('FromUserName').text
 		toUser = xml.find('ToUserName').text
 		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
 		response = make_response(xml_text % (toUser, FromUserName, str(int(time.time())), msg))
+		response.content_type='application/xml'
 		return response
 	return make_response(u'请用微信发送信息')
 
 @bp.route('wechat/', methods=['GET', 'POST'])
-def wechat_auth():
+def wechat_insert():
 	if request.method == 'GET':
 		token = 'prettystory'
 		query = request.args
