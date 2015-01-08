@@ -22,9 +22,8 @@ def wechat_auth():
 	data.sort()
 	data = ''.join(data)
 	hashcode = hashlib.sha1(data).hexdigest()
-	print timestamp
 	if hashcode == signature:
-		return echostr
+		return make_response(echostr)
 
 @bp.route('test/')
 def test():
