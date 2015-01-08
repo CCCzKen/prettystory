@@ -17,7 +17,7 @@ xml_text = """
 </xml>
 """
 
-@bp.route('/', methods=['GET', 'POST'])
+@bp.route('', methods=['GET', 'POST'])
 def wechat_auto():
 	if request.method == 'POST':	
 		xml = etree.fromstring(request.stream.read())
