@@ -7,15 +7,13 @@ from flask import url_for, redirect, make_response
 
 bp = Blueprint('home', __name__)
 
-xml_text = """
-<xml>
+xml_text = """<xml>
 <ToUserName><![CDATA[%s]]></ToUserName>
 <FromUserName><![CDATA[%s]]></FromUserName>
 <CreateTime>%s</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
 <Content><![CDATA[%s]]></Content>
-</xml>
-"""
+</xml>"""
 
 @bp.route('', methods=['GET', 'POST'])
 def wechat_auto():
