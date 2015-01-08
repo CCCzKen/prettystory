@@ -8,7 +8,7 @@ from flask import url_for, redirect, make_response
 bp = Blueprint('home', __name__)
 
 xml_text = """
-<?xml version="1.0" encoding="UTF-8"?>
+<xml>
 <ToUserName><![CDATA[%s]]></ToUserName>
 <FromUserName><![CDATA[%s]]></FromUserName>
 <CreateTime>%s</CreateTime>
@@ -46,16 +46,3 @@ def wechat_insert():
 		if hashcode == signature:
 			return make_response(echostr)
 		return 'false'
-
-# @bp.route('reply/')
-# def reply():
-# 	toUser = 'ken'
-# 	fromUser = 'kang'
-# 	content = u'你好'
-# 	return render_template(
-# 		'reply_text.xml',
-# 		toUser=toUser,
-# 		fromUser=fromUser,
-# 		createTime=time.time(),
-# 		content=content,
-# 	)
