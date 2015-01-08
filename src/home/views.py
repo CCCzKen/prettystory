@@ -7,8 +7,7 @@ from flask import url_for, redirect, make_response
 
 bp = Blueprint('home', __name__)
 
-xml_text = 
-'''
+xml_text = """
 <?xml version="1.0" encoding="UTF-8"?>
 <ToUserName><![CDATA[%s]]></ToUserName>
 <FromUserName><![CDATA[%s]]></FromUserName>
@@ -16,11 +15,20 @@ xml_text =
 <MsgType><![CDATA[text]]></MsgType>
 <Content><![CDATA[%s]]></Content>
 </xml>
-'''
+"""
 
-@bp.route('/')
+@bp.route('/', methods=['GET', 'POST'])
 def home():
-	return 'Hello World'
+	if request.method == 'GET':	
+		return 'Hello World'
+	else:
+		xml = etree.fromstring(request.data)
+		content = xml.find('Content').text
+		fromUser = xml.find('FromUserName').text
+		toUser = xml.find('ToUserName').text
+		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
+		response = make_response(xml_text % (toUser, FromUserName, str(int(time.time())), msg))
+		return response
 
 @bp.route('wechat/', methods=['GET', 'POST'])
 def wechat_auth():
@@ -38,15 +46,6 @@ def wechat_auth():
 		if hashcode == signature:
 			return make_response(echostr)
 		return 'false'
-	else:
-		xml = etree.fromstring(request.data)
-		content = xml.find('Content').text
-		fromUser = xml.find('FromUserName').text
-		toUser = xml.find('ToUserName').text
-		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
-		response = make_response(xml_text % (toUser, FromUserName, str(int(time.time())), msg))
-		return response
-
 
 # @bp.route('reply/')
 # def reply():
