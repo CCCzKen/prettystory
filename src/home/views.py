@@ -13,16 +13,17 @@ def home():
 
 @bp.route('wechat', methods=['GET', 'POST'])
 def wechat_auth():
-	if request.method == 'GET':
-		token = 'prettystory'
-		data = request.args
-		signature = data.get('signature')
-		timestamp = data.get('timestamp')
-		nonce = data.get('nonce')
-		echostr = data.get('echostr')
-		args = [signature, nonce, token]
-		args.sort()
-		args = ''.join(args)
-		hashcode = hashlib.sha1(args).hexdigest() 
-		if hashcode == signature :
-			return make_response(echostr)
+	return time.time()
+	# if request.method == 'GET':
+	# 	token = 'prettystory'
+	# 	data = request.args
+	# 	signature = data.get('signature')
+	# 	timestamp = data.get('timestamp')
+	# 	nonce = data.get('nonce')
+	# 	echostr = data.get('echostr')
+	# 	args = [signature, nonce, token]
+	# 	args.sort()
+	# 	args = ''.join(args)
+	# 	hashcode = hashlib.sha1(args).hexdigest() 
+	# 	if hashcode == signature :
+	# 		return make_response(echostr)
