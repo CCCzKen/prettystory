@@ -11,19 +11,19 @@ bp = Blueprint('home', __name__)
 def home():
 	return 'Hello World'
 
-@bp.route('/wechat', methods=['GET', 'POST'])
+@bp.route('wechat/', methods=['GET', 'POST'])
 def wechat_auth():
-	return time.time()
-	# if request.method == 'GET':
-	# 	token = 'prettystory'
-	# 	data = request.args
-	# 	signature = data.get('signature')
-	# 	timestamp = data.get('timestamp')
-	# 	nonce = data.get('nonce')
-	# 	echostr = data.get('echostr')
-	# 	args = [signature, nonce, token]
-	# 	args.sort()
-	# 	args = ''.join(args)
-	# 	hashcode = hashlib.sha1(args).hexdigest() 
-	# 	if hashcode == signature :
-	# 		return make_response(echostr)
+	# return str(time.time())
+	if request.method == 'GET':
+		token = 'prettystory'
+		data = request.args
+		signature = data.get('signature')
+		timestamp = data.get('timestamp')
+		nonce = data.get('nonce')
+		echostr = data.get('echostr')
+		args = [signature, nonce, token]
+		args.sort()
+		args = ''.join(args)
+		hashcode = hashlib.sha1(args).hexdigest() 
+		if hashcode == signature :
+			return make_response(echostr)
