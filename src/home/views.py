@@ -24,6 +24,7 @@ def wechat_auth():
 	hashcode = hashlib.sha1(data).hexdigest()
 	if hashcode == signature:
 		return make_response(echostr)
+	return 'false'
 
 @bp.route('test/')
 def test():
