@@ -14,13 +14,10 @@ def home():
 def wechat_auth():
 	token = 'prettystory'
 	query = request.args
-	signature = query.get('signature')
-	timestamp = query.get('timestamp')
-	nonce = query.get('nonce')
-	echostr = query.get('echostr')
-	f = open('data.txt', 'w')
-	f.write(signature, timestamp, nonce, echostr + '\n')
-	f.close()
+	signature = query['signature']
+	timestamp = query['timestamp']
+	nonce = query['nonce']
+	echostr = query['echostr']
 	data = [token, timestamp, nonce]
 	data.sort()
 	data = ''.join(data)
