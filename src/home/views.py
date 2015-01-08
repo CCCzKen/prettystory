@@ -7,6 +7,16 @@ from flask import url_for, redirect, make_response
 
 bp = Blueprint('home', __name__)
 
+xml_text = 
+'''
+<?xml version="1.0" encoding="UTF-8"?>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+</xml>
+'''
 
 @bp.route('/')
 def home():
@@ -30,19 +40,15 @@ def wechat_auth():
 
 @bp.route('reply/', methods=['POST'])
 def reply():
-	str_xml = request.form()
-	xml = etree.fromstring(str_xml)
+	xml = etree.fromstring(request.data)
 	content = xml.find('Content').text
-	msgType = xml.find('MsgType').text
 	fromUser = xml.find('FromUserName').text
 	toUser = xml.find('ToUserName').text
-	return render_template(
-		'reply_text.xml',
-		toUser=toUser,
-		fromUser=fromUser,
-		createTime=time.time(),
-		content=u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content,
-	)
+	msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
+	response = make_response(xml_text % (toUser, FromUserName, str(int(time.time())), msg))
+	return response
+
+
 # @bp.route('reply/')
 # def reply():
 # 	toUser = 'ken'
