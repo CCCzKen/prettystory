@@ -17,10 +17,10 @@ def wechat_auth():
 	if request.method == 'GET':
 		token = 'prettystory'
 		data = request.args
-		signature = data.get('signature')
-		timestamp = data.get('timestamp')
-		nonce = data.get('nonce')
-		echostr = data.get('echostr')
+		signature = data.get('signature', '')
+		timestamp = data.get('timestamp', '')
+		nonce = data.get('nonce', '')
+		echostr = data.get('echostr', '')
 		args = [signature, nonce, token]
 		args.sort()
 		args = ''.join(args)
