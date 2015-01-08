@@ -19,9 +19,7 @@ xml_text = """
 
 @bp.route('/', methods=['GET', 'POST'])
 def home():
-	if request.method == 'GET':	
-		return 'Hello World'
-	else:
+	if request.method == 'POST':	
 		xml = etree.fromstring(request.data)
 		content = xml.find('Content').text
 		fromUser = xml.find('FromUserName').text
@@ -29,6 +27,7 @@ def home():
 		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
 		response = make_response(xml_text % (toUser, FromUserName, str(int(time.time())), msg))
 		return response
+	return make_response(u'请用微信发送信息')
 
 @bp.route('wechat/', methods=['GET', 'POST'])
 def wechat_auth():
