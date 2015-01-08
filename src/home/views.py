@@ -1,5 +1,7 @@
 # coding: utf-8
+import time
 import hashlib
+from lxml import etree
 from flask import render_template, request, Blueprint
 from flask import url_for, redirect, make_response
 
@@ -26,18 +28,18 @@ def wechat_auth():
 		return make_response(echostr)
 	return 'false'
 
-@bp.route('test/')
-def test():
-	token = 'prettystory'
-	signature = 'bf76fdf980abcb11325fe347df84ca9d6bcd67d5'
-	echostr = '3178196012987580285'
-	timestamp = '1420689213'
-	nonce = '697622616'
-	data = [token, timestamp, nonce]
-	data.sort()
-	data = ''.join(data)
-	hashcode = hashlib.sha1(data).hexdigest()
-	if hashcode == signature:
-		return hashcode
-	else:
-		return 'false'
+@bp.route('reply/', methods=['GET', 'POST'])
+def reply():
+	str_xml = request.form()
+	xml = etree.fromstring(str_xml)
+	content = xml.find('Content').text
+	msgType = xml.find('MsgType').text
+	fromUser = xml.find('FromUserName').text
+	toUser = xml.find('ToUserName').text
+	return render_template(
+		'reply_text.xml',
+		toUser=toUser,
+		fromUser=fromUser,
+		createTime=time.time(),
+		content=u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content,
+	)
