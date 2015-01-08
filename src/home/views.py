@@ -28,7 +28,7 @@ def wechat_auth():
 		return make_response(echostr)
 	return 'false'
 
-@bp.route('reply/', methods=['GET', 'POST'])
+@bp.route('reply/', methods=['POST'])
 def reply():
 	str_xml = request.form()
 	xml = etree.fromstring(str_xml)
@@ -43,3 +43,15 @@ def reply():
 		createTime=time.time(),
 		content=u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content,
 	)
+# @bp.route('reply/')
+# def reply():
+# 	toUser = 'ken'
+# 	fromUser = 'kang'
+# 	content = u'你好'
+# 	return render_template(
+# 		'reply_text.xml',
+# 		toUser=toUser,
+# 		fromUser=fromUser,
+# 		createTime=time.time(),
+# 		content=content,
+# 	)
