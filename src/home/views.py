@@ -18,6 +18,9 @@ def wechat_auth():
 	timestamp = query.get('timestamp')
 	nonce = query.get('nonce')
 	echostr = query.get('echostr')
+	f = open('data.txt', 'w')
+	f.write(signature, timestamp, nonce, echostr + '\n')
+	f.close()
 	data = [token, timestamp, nonce]
 	data.sort()
 	data = ''.join(data)
