@@ -16,6 +16,7 @@ MSG_TEXT_TPL = """<xml>
 </xml>"""
 
 ERROR_TEXT = u'公众号处于研发阶段，不能自动回复您的消息，请等待开发者回复。'
+ERROR_SONG = u'很抱歉，没有这首歌曲'
 
 RULE = r'歌词'
 

@@ -2,6 +2,8 @@
 import re
 from requests import get
 
+ERROR_SONG = u'很抱歉，找不到这首歌曲'
+
 human_headers = {
 	'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
 	'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0',
@@ -20,21 +22,21 @@ class Lyrics(object):
 	def find(self):
 		url = 'http://music.baidu.com/search/lrc?from=new_mp3&key=%s+%s' % (self.song, self.singer)
 		html = get(url, headers=human_headers, ).text
-		return html
-
-	def extract(self):
-		page = self.find()
-		text = re.search(r'<p id="lyricCont-0">([\S\s]*?)</p>', page).group(1)
+		text = self.extract(html)
 		return text
 
-	def filter(self):
-		text = self.extract()
-		text = re.sub(r'[ <em>br/]', '', text)
-		return text
+	def extract(self, page):
+		text = re.search(r'<p id="lyricCont-0">([\S\s]*?)</p>', page)
+		if text is None:
+			return ERROR_SONG
+		else:
+			text.group(1)
+			text = re.sub(r'[ <em>br/]', '', text)
+			return text
 
 def main():
-	do = Lyrics('泡沫', '邓紫棋')
-	print do.filter()
+	do = Lyrics('爆刘鸡', '邓紫棋')
+	print do.find()
 
 if __name__ == '__main__':
 	main()
