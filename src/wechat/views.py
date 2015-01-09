@@ -64,4 +64,4 @@ def reply_text(msg, content):
 
 def get_lyrics(song, singer):
 	lyrics = Lyrics(song, singer).filter()
-	print lyrics
+	return lyrics
