@@ -12,7 +12,10 @@ human_headers = {
 class Lyrics(object):
 	def __init__(self, song, singer=None):
 		self.song = song
-		self.singer = singer
+		if singer is None:
+			self.singer = ''
+		else:
+			self.singer = singer
 
 	def find(self):
 		url = 'http://music.baidu.com/search/lrc?from=new_mp3&key=%s+%s' % (self.song, self.singer)
@@ -27,12 +30,16 @@ class Lyrics(object):
 	def filter(self):
 		text = self.extract()
 		text = re.sub(r'[ <em>br/]', '', text)
-		print text
+		return text
+
+	def verify(self, text):
+		pass
+
 
 
 def main():
-	do = Lyrics('心跳', '王力宏')
-	do.filter()
+	do = Lyrics('听说爱情回来过', '张敬轩')
+	print do.filter()
 
 if __name__ == '__main__':
 	main()
