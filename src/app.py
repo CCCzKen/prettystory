@@ -12,9 +12,9 @@ def init_logger(app):
 	app.logger.addHandler(handler)
 
 def register_routes(app):
-	import home
+	import home, wechat
 	app.register_blueprint(home.bp, url_prefix='/')
-
+	app.register_blueprint(wechat.bp, url_prefix='/wechat')
 
 def create_app(config=None):
 	app = Flask(__name__, template_folder=settings.TEMPLATE_FOLDER)
