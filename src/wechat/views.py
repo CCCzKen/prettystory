@@ -23,7 +23,7 @@ def wechat_msg():
 	msg = parse_msg(data)
 	reply = re.search(RULE, msg['Content'].encode('utf-8'))
 	if reply:
-		text = msg['Content'].replace('：', ':')
+		text = msg['Content'].encode('utf-8').replace('：', ':')
 		song = re.search(r'[:](.*?) ', text).group(1)
 		singer = re.search(r' (.*?)$', text).group(1)
 		return reply_text(msg, song + '+' + singer)
