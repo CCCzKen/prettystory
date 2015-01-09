@@ -23,7 +23,7 @@ def wechat_auto():
 		fromUser = xml.find('FromUserName').text
 		toUser = xml.find('ToUserName').text
 		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
-		response = xml_text % (toUser, fromUser, str(int(time.time())), msg)
+		response = xml_text % (fromUser, toUser, str(int(time.time())), msg)
 		return response
 	return make_response(u'出错了')
 
