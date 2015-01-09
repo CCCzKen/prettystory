@@ -21,7 +21,7 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	reply = re.search(RULE, msg['Content'])
+	reply = re.search(RULE, msg['Content'].decode('utf-8'))
 	if reply:
 		return reply_text(msg, u'歌曲')
 	return reply_text(msg, ERROR_TEXT)

@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+import re
 
 DEBUG = True
 TESTING = True
