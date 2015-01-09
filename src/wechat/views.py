@@ -18,14 +18,11 @@ def wechat_access_verify():
 
 @bp.route('/', methods=['POST'])
 def wechat_msg():
-	if verification(request):
-		data = request.data
-		msg = parse_msg(data)
-		content = u'你刚刚说的是:' + msg['Content']
-		text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
-		return text
-	return 'something wrong'
-
+	data = request.data
+	msg = parse_msg(data)
+	content = u'你刚刚说的是:' + msg['Content']
+	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
+	return text
 
 def verification(request):
 	token = TOKEN
