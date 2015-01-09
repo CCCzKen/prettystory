@@ -1,6 +1,8 @@
 # coding: utf-8
+import time
 import hashlib
-from src import settings
+from src.settings import TOKEN, MSG_TEXT_TPL
+from lxml import etree
 from flask import render_template, Blueprint, request
 from flask import make_response, redirect, url_for
 
@@ -14,9 +16,18 @@ def wechat_access_verify():
 		return echostr
 	return 'something wrong'
 
+@bp.route('/', methods=['POST'])
+def wechat_msg():
+	if verification(request):
+		data = request.data
+		msg = parse_msg(data)
+		content = u'你刚刚说的是:' + msg['Content']
+		response = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
+		return request
+
 
 def verification(request):
-	token = settings.TOKEN
+	token = TOKEN
 	signature = request.args.get('signature', '')
 	timestamp = request.args.get('timestamp', '')
 	nonce = request.args.get('nonce', '')
@@ -27,3 +38,10 @@ def verification(request):
 	if hashcode == signature:
 		return True
 	return False
+
+def parse_msg(data):
+	root = etree.fromstring(data)
+	args = {}
+	for child in root:
+		args[child.tag] = child.text
+	return args
