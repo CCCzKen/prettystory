@@ -30,12 +30,12 @@ class Lyrics(object):
 		if text is None:
 			return ERROR_SONG
 		else:
-			text.group(1)
+			text = text.group(1)
 			text = re.sub(r'[ <em>br/]', '', text)
 			return text
 
 def main():
-	do = Lyrics('爆刘鸡', '邓紫棋')
+	do = Lyrics('存在', '')
 	print do.find()
 
 if __name__ == '__main__':
