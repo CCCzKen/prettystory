@@ -25,7 +25,9 @@ def wechat_msg():
 	reply = re.search(RULE, msg['Content'].encode('utf-8'))
 	if reply:
 		text = msg['Content'].encode('utf-8').replace('：', ':')
-		song = re.search(r'[:](.*?) ', text).group(1)
+		song = re.search(r'[:](.*?) |[:](.*?)$', text)
+		if song.group(1) is None:
+			song = song.group(2)
 		singer = re.search(r' (.*?)$', text)
 		if singer is None:
 			singer = ''
