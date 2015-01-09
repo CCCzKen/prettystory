@@ -23,8 +23,8 @@ def wechat_auto():
 		fromUser = xml.find('FromUserName').text
 		toUser = xml.find('ToUserName').text
 		msg = u'我现在还在开发中，还没有什么功能，您刚才说的是：' + content
-		response = make_response(xml_text % (toUser, fromUser, str(int(time.time())), msg))
-		return 'response'
+		response = xml_text % (toUser, fromUser, str(int(time.time())), msg)
+		return response
 	return make_response(u'出错了')
 
 @bp.route('wechat/', methods=['GET', 'POST'])
