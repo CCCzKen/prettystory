@@ -2,6 +2,7 @@
 import re
 import time
 import hashlib
+from src.function import Lyrics
 from src.settings import TOKEN, MSG_TEXT_TPL, ERROR_TEXT, RULE
 from lxml import etree
 from flask import render_template, Blueprint, request
@@ -25,8 +26,13 @@ def wechat_msg():
 	if reply:
 		text = msg['Content'].encode('utf-8').replace('：', ':')
 		song = re.search(r'[:](.*?) ', text).group(1)
-		singer = re.search(r' (.*?)$', text).group(1)
-		return reply_text(msg, song + '+' + singer)
+		singer = re.search(r' (.*?)$', text)
+		if singer is None:
+			singer = ''
+		else:
+			singer = singer.group(1)
+		lyrics = get_lyrics(song, singer)
+		return reply_text(msg, lyrics)
 	return reply_text(msg, ERROR_TEXT)
 
 
@@ -53,3 +59,7 @@ def parse_msg(data):
 def reply_text(msg, content):
 	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
 	return text
+
+def get_lyrics(song, singer):
+	lyrics = Lyrics(song, singer).filter()
+	print lyrics
