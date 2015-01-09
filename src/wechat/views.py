@@ -28,6 +28,8 @@ def wechat_msg():
 		song = re.search(r'[:](.*?) |[:](.*?)$', text)
 		if song.group(1) is None:
 			song = song.group(2)
+		else:
+			song = song.group(1)
 		singer = re.search(r' (.*?)$', text)
 		if singer is None:
 			singer = ''

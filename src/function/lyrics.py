@@ -32,13 +32,8 @@ class Lyrics(object):
 		text = re.sub(r'[ <em>br/]', '', text)
 		return text
 
-	def verify(self, text):
-		pass
-
-
-
 def main():
-	do = Lyrics('听说爱情回来过', '张敬轩')
+	do = Lyrics('泡沫', '邓紫棋')
 	print do.filter()
 
 if __name__ == '__main__':
