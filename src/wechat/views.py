@@ -1,7 +1,8 @@
 # coding: utf-8
+import re
 import time
 import hashlib
-from src.settings import TOKEN, MSG_TEXT_TPL
+from src.settings import TOKEN, MSG_TEXT_TPL, ERROR_TEXT, RULE
 from lxml import etree
 from flask import render_template, Blueprint, request
 from flask import make_response, redirect, url_for
@@ -20,9 +21,11 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	content = u'你刚刚说的是:' + msg['Content']
-	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
-	return text
+	reply = re.search(RULE, msg['Content'])
+	if reply:
+		return reply_text(msg, u'歌曲')
+	return reply_text(msg, ERROR_TEXT)
+
 
 def verification(request):
 	token = TOKEN
@@ -43,3 +46,7 @@ def parse_msg(data):
 	for child in root:
 		args[child.tag] = child.text
 	return args
+
+def reply_text(msg, content):
+	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
+	return text
