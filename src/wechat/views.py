@@ -23,7 +23,7 @@ def wechat_msg():
 		msg = parse_msg(data)
 		content = u'你刚刚说的是:' + msg['Content']
 		response = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
-		return request
+		return response
 
 
 def verification(request):
