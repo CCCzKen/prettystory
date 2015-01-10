@@ -26,7 +26,7 @@ def wechat_msg():
 	msgType = msg['MsgType']
 	if msgType == 'text':
 		response = common_msg(msg)
-	elif msgType == 'event':
+	elif msgType == 'event' and msg['Event'] == 'subscribe':
 		response = event_msg(msg)
 	else:
 		response = 'something wrong'
@@ -81,4 +81,4 @@ def common_msg(msg):
 	return reply_text(msg, ERROR_TEXT)
 
 def event_msg(msg):
-	return reply_text(msg, HELP_INFO, MSG_EVENT_TPL)
+	return reply_text(msg, HELP_INFO)
