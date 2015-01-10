@@ -4,6 +4,7 @@ import time
 import hashlib
 from src.function import Lyrics
 from src.settings import TOKEN, MSG_TEXT_TPL, ERROR_TEXT, RULE
+from src.settings import MSG_EVENT_TPL, HELP_INFO
 from lxml import etree
 from flask import render_template, Blueprint, request
 from flask import make_response, redirect, url_for
@@ -26,7 +27,7 @@ def wechat_msg():
 	if msgType == 'text':
 		response = common_msg(msg)
 	elif msgType == 'event':
-		response = common_msg(msg)
+		response = event_msg(msg)
 	else:
 		response = 'something wrong'
 	return response
@@ -51,8 +52,8 @@ def parse_msg(data):
 		args[child.tag] = child.text
 	return args
 
-def reply_text(msg, content):
-	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
+def reply_text(msg, content, tpl=MSG_TEXT_TPL):
+	text = tpl % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
 	return text
 
 def get_lyrics(msg, text):
@@ -61,11 +62,7 @@ def get_lyrics(msg, text):
 		song = song.group(2)
 	else:
 		song = song.group(1)
-	singer = re.search(r' (.*?)$', text)
-	if singer is None:
-		singer = ''
-	else:
-		singer = singer.group(1)
+	singer = re.search(r' (.*?)$', text).group(1)
 	lyrics = Lyrics(song, singer).find()
 	return reply_text(msg, lyrics)
 
@@ -80,4 +77,4 @@ def common_msg(msg):
 	return reply_text(msg, ERROR_TEXT)
 
 def event_msg(msg):
-	pass
+	return reply_text(msg, HELP_INFO, MSG_EVENT_TPL)

@@ -11,12 +11,9 @@ human_headers = {
 
 
 class Lyrics(object):
-	def __init__(self, song, singer=None):
+	def __init__(self, song, singer=''):
 		self.song = song
-		if singer is None:
-			self.singer = ''
-		else:
-			self.singer = singer
+		self.singer = singer
 
 	def find(self):
 		url = 'http://music.baidu.com/search/lrc?from=new_mp3&key=%s+%s' % (self.song, self.singer)
