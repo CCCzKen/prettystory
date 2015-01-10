@@ -25,7 +25,7 @@ def wechat_msg():
 	msgType = msg['MsgType']
 	if msgType == 'text':
 		response = common_msg(msg)
-	else if msgType == 'event':
+	elif msgType == 'event':
 		response = common_msg(msg)
 	else:
 		response = 'something wrong'
