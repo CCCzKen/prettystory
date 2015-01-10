@@ -22,7 +22,13 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	response = common_msg(msg)
+	msgType = msg['MsgType']
+	if msgType == 'text':
+		response = common_msg(msg)
+	else if msgType == 'event':
+		response = common_msg(msg)
+	else:
+		response = 'something wrong'
 	return response
 
 def verification(request):
