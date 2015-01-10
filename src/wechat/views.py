@@ -22,21 +22,11 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	reply = re.search(RULE, msg['Content'].encode('utf-8'))
-	if reply:
-		text = msg['Content'].encode('utf-8').replace('：', ':')
-		song = re.search(r'[:](.*?) |[:](.*?)$', text)
-		if song.group(1) is None:
-			song = song.group(2)
-		else:
-			song = song.group(1)
-		singer = re.search(r' (.*?)$', text)
-		if singer is None:
-			singer = ''
-		else:
-			singer = singer.group(1)
-		lyrics = get_lyrics(song, singer)
-		return reply_text(msg, lyrics)
+	text = msg['Content'].encode('utf-8').replace('：', ':')
+	reply = re.search(RULE, text)
+	if reply.group(1):
+		response = get_lyrics(msg)
+		return response
 	return reply_text(msg, ERROR_TEXT)
 
 
@@ -64,6 +54,18 @@ def reply_text(msg, content):
 	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
 	return text
 
-def get_lyrics(song, singer):
+
+def get_lyrics(msg):
+	text = msg['Content'].encode('utf-8').replace('：', ':')
+	song = re.search(r'[:](.*?) |[:](.*?)$', text)
+	if song.group(1) is None:
+		song = song.group(2)
+	else:
+		song = song.group(1)
+	singer = re.search(r' (.*?)$', text)
+	if singer is None:
+		singer = ''
+	else:
+		singer = singer.group(1)
 	lyrics = Lyrics(song, singer).find()
-	return lyrics
+	return reply_text(msg, lyrics)

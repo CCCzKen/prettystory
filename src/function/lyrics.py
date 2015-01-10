@@ -1,8 +1,7 @@
 # coding: utf-8
 import re
 from requests import get
-
-ERROR_SONG = u'很抱歉，找不到这首歌曲'
+from src.settings import ERROR_SONG
 
 human_headers = {
 	'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
