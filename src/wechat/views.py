@@ -22,10 +22,10 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	text = msg['Content'].replace('：', ':')
+	text = msg['Content'].encode('utf-8').replace('：', ':')
 	reply = re.search(RULE, text)
-	if reply.group(1):
-		response = get_lyrics(msg)
+	if reply.group():
+		response = get_lyrics(msg, text)
 		return response
 	return reply_text(msg, ERROR_TEXT)
 
@@ -55,8 +55,7 @@ def reply_text(msg, content):
 	return text
 
 
-def get_lyrics(msg):
-	text = msg['Content'].encode('utf-8').replace('：', ':')
+def get_lyrics(msg, text):
 	song = re.search(r'[:](.*?) |[:](.*?)$', text)
 	if song.group(1) is None:
 		song = song.group(2)
