@@ -24,9 +24,11 @@ def wechat_msg():
 	msg = parse_msg(data)
 	text = msg['Content'].encode('utf-8').replace('：', ':')
 	reply = re.search(RULE, text)
-	if reply.group():
-		response = get_lyrics(msg, text)
-		return response
+	if reply:
+		if reply.group():
+			response = get_lyrics(msg, text)
+			return response
+		return reply_text(msg, ERROR_TEXT)
 	return reply_text(msg, ERROR_TEXT)
 
 
