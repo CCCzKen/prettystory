@@ -11,7 +11,7 @@ human_headers = {
 
 
 class Lyrics(object):
-	def __init__(self, song, singer=''):
+	def __init__(self, song, singer):
 		self.song = song
 		self.singer = singer
 
