@@ -62,7 +62,10 @@ def get_lyrics(msg, text):
 		song = song.group(2)
 	else:
 		song = song.group(1)
-	singer = re.search(r' (.*?)$', text).group(1)
+	try:
+		singer = re.search(r' (.*?)$', text).group(1)
+	except AttributeError:
+		pass
 	lyrics = Lyrics(song, singer).find()
 	return reply_text(msg, lyrics)
 
