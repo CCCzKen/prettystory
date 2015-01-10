@@ -22,15 +22,8 @@ def wechat_access_verify():
 def wechat_msg():
 	data = request.data
 	msg = parse_msg(data)
-	text = msg['Content'].encode('utf-8').replace('：', ':')
-	reply = re.search(RULE, text)
-	if reply:
-		if reply.group():
-			response = get_lyrics(msg, text)
-			return response
-		return reply_text(msg, ERROR_TEXT)
-	return reply_text(msg, ERROR_TEXT)
-
+	response = common_msg(msg)
+	return response
 
 def verification(request):
 	token = TOKEN
@@ -56,7 +49,6 @@ def reply_text(msg, content):
 	text = MSG_TEXT_TPL % (msg['FromUserName'], msg['ToUserName'], str(int(time.time())), content)
 	return text
 
-
 def get_lyrics(msg, text):
 	song = re.search(r'[:](.*?) |[:](.*?)$', text)
 	if song.group(1) is None:
@@ -70,3 +62,16 @@ def get_lyrics(msg, text):
 		singer = singer.group(1)
 	lyrics = Lyrics(song, singer).find()
 	return reply_text(msg, lyrics)
+
+def common_msg(msg):
+	text = msg['Content'].encode('utf-8').replace('：', ':')
+	reply = re.search(RULE, text)
+	if reply:
+		if reply.group():
+			response = get_lyrics(msg, text)
+			return response
+		return reply_text(msg, ERROR_TEXT)
+	return reply_text(msg, ERROR_TEXT)
+
+def event_msg(msg):
+	pass
