@@ -5,7 +5,7 @@ import re
 DEBUG = True
 TESTING = True
 
-TOKEN = 'prettystory'
+TOKEN = 'xxxxxx'
 
 MSG_TEXT_TPL = """<xml>
 <ToUserName><![CDATA[%s]]></ToUserName>
